@@ -21,6 +21,30 @@ login_manager = LoginManager()
 
 login_manager.init_app(app)
 
+@login_manager.user_loader
+def load_user(user_id):
+	try:
+		return models.User.get(models.User.id == user_id)
+	except models.DoesNotExist:
+		return None
+
+@login_manager.unauthorized_handler
+def unauthorized():
+	return jsonify(
+			data={},
+			message='no user is currently logged in',
+			status=401
+		), 401 
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -35,3 +59,11 @@ login_manager.init_app(app)
 if __name__ == '__main__':
 	models.initialize()
 	app.run(debug=DEBUG, port=PORT)
+
+
+
+
+
+
+
+
