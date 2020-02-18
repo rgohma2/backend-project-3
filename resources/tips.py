@@ -30,6 +30,7 @@ def create_tip():
 		), 201
 
 @tips.route('/<id>', methods=['Delete'])
+@login_required
 def delete_tip(id):
 	tip = models.Tip.get_by_id(id)
 	if current_user.id == tip.creator.id:
@@ -45,6 +46,8 @@ def delete_tip(id):
 				message='error with user reference',
 				status=403
 			), 403
+
+@tips.route
 
 
 
