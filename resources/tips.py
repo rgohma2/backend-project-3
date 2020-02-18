@@ -7,7 +7,16 @@ tips = Blueprint('tips', 'tips')
 
 @tips.route('/', methods=['GET'])
 def tip_index():
-	return 'working'
+	all_tips = models.Tip.select()
+	print(all_tips)
+
+	tip_dicts = [model_to_dict(tip) for tip in all_tips]
+	print(tip_dicts)
+	return jsonify(
+			data=tip_dicts,
+			message=f'retrieved {len(tip_dicts)} tips.',
+			status=200
+		), 200
 
 @tips.route('/', methods=['POST'])
 @login_required
@@ -47,7 +56,7 @@ def delete_tip(id):
 				status=403
 			), 403
 
-@tips.route
+# @tips.route('')
 
 
 
