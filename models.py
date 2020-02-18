@@ -10,7 +10,7 @@ class User(UserMixin, Model):
   password = CharField()
 
   class Meta:
-  	datetime = DATABASE
+  	database = DATABASE
 
 
 class Tip(Model):
