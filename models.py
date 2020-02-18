@@ -14,7 +14,7 @@ class User(UserMixin, Model):
 
 
 class Tip(Model):
-	user = CharField()
+	creator = ForeignKeyField(User, backref='tips')
 	category = CharField()
 	tip = CharField()
 	description = CharField()

@@ -5,6 +5,7 @@ import models
 from flask_login import LoginManager
 
 from resources.users import users
+from resources.tips import tips
 
 DEBUG = True
 PORT = 8000
@@ -13,6 +14,7 @@ app = Flask(__name__)
 
 
 app.register_blueprint(users, url_prefix='/api/v1/users')
+app.register_blueprint(tips, url_prefix='/api/v1/tips')
 
 
 app.secret_key = 'this is a key that is meant to be a secret. shhhhhh.'
