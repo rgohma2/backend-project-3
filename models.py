@@ -1,7 +1,17 @@
 from peewee import *
+from flask_login import UserMixin
 import datetime
 
 DATABASE = SqliteDatabase('tips.sqlite')
+
+class User(UserMixin, Model):
+  email = CharField(unique=True) 
+  name = CharField()
+  password = CharField()
+
+  class Meta:
+  	datetime = DATABASE
+
 
 class Tip(Model):
 	user = CharField()
@@ -15,6 +25,6 @@ class Tip(Model):
 
 def initialize():
 	DATABASE.connect()
-	DATABASE.create_tables([Tip], safe=True)
+	DATABASE.create_tables([User, Tip], safe=True)
 	print('connected to DB')
 	DATABASE.close()
