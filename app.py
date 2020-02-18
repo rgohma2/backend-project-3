@@ -2,6 +2,8 @@ from flask import Flask, jsonify
 
 import models
 
+from flask_cors import CORS
+
 from flask_login import LoginManager
 
 from resources.users import users
@@ -11,6 +13,9 @@ DEBUG = True
 PORT = 8000
 
 app = Flask(__name__) 
+
+CORS(users, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(tips, origins=['http://localhost:3000'], supports_credentials=True)
 
 
 app.register_blueprint(users, url_prefix='/api/v1/users')
