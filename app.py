@@ -1,5 +1,3 @@
-print('hello world')
-
 from flask import Flask, jsonify
 
 import models
