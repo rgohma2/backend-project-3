@@ -8,10 +8,8 @@ tips = Blueprint('tips', 'tips')
 @tips.route('/', methods=['GET'])
 def tip_index():
 	all_tips = models.Tip.select()
-	print(all_tips)
 
 	tip_dicts = [model_to_dict(tip) for tip in all_tips]
-	print(tip_dicts)
 	return jsonify(
 			data=tip_dicts,
 			message=f'retrieved {len(tip_dicts)} tips.',
@@ -28,8 +26,6 @@ def create_tip():
 
 	tip_dict = model_to_dict(tip)
 	tip_dict['creator'].pop('password')
-	print(tip_dict['creator'])
-	print(tip_dict)
 
 	# return 'hi'
 	return jsonify(
@@ -56,7 +52,36 @@ def delete_tip(id):
 				status=403
 			), 403
 
-# @tips.route('')
+@tips.route('/<id>', methods=['PUT'])
+@login_required
+def update_tip(id):
+	payload = request.get_json()
+
+	tip = models.Tip.get_by_id(id)
+
+	if tip.creator.id == current_user.id:
+		tip.category = payload['category'] if 'category' in payload else None
+		tip.tip = payload['tip'] if 'tip' in payload else None
+		tip.description = payload['description'] if 'description' in payload else None
+
+		tip.save()
+
+		tip_dict = model_to_dict(tip)
+
+		return jsonify(
+				data=tip_dict,
+				message='sucessfully updated tip at id: {}'.format(tip.creator.id),
+				status=403
+			), 403
+	else:
+		return jsonify(
+				data={},
+				message='error with user reference',
+				status=403
+			), 403
+
+
+
 
 
 
