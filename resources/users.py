@@ -62,7 +62,7 @@ def login():
 			login_user(user)
 			user_dict.pop('password')
 			return jsonify(
-					data={},
+					data=user_dict,
 					message='sucessfully logged in with email: {}'.format(user_dict['email']),
 					status=200
 				), 200

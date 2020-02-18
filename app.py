@@ -18,6 +18,7 @@ CORS(users, origins=['http://localhost:3000'], supports_credentials=True)
 CORS(tips, origins=['http://localhost:3000'], supports_credentials=True)
 
 
+
 app.register_blueprint(users, url_prefix='/api/v1/users')
 app.register_blueprint(tips, url_prefix='/api/v1/tips')
 
