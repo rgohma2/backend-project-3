@@ -67,7 +67,7 @@ def login():
 					status=200
 				), 200
 		else:
-			return 'email or password does not match'
+			return jsonify(message='email or password does not match')
 	    	# return jsonify( data={}, message=('email or password does not match'), status=401), 401
 	    		
 

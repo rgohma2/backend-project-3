@@ -71,8 +71,8 @@ def update_tip(id):
 		return jsonify(
 				data=tip_dict,
 				message='sucessfully updated tip at id: {}'.format(tip.creator.id),
-				status=403
-			), 403
+				status=201
+			), 201
 	else:
 		return jsonify(
 				data={},
