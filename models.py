@@ -23,8 +23,17 @@ class Tip(Model):
 	class Meta:
 		database = DATABASE
 
+class Favorite(Model):
+	user = ForeignKeyField(User, backref='favorites')
+	tip = ForeignKeyField(Tip, backref='favorites')
+
+	class Meta:
+		database = DATABASE
+
+
+
 def initialize():
 	DATABASE.connect()
-	DATABASE.create_tables([User, Tip], safe=True)
+	DATABASE.create_tables([User, Tip, Favorite], safe=True)
 	print('connected to DB')
 	DATABASE.close()

@@ -40,6 +40,7 @@ def delete_tip(id):
 	tip = models.Tip.get_by_id(id)
 	if current_user.id == tip.creator.id:
 		tip.delete_instance()
+
 		return jsonify(
 				data={},
 				message='sucessfully deleted tip with id: {}'.format(tip.creator.id),
@@ -79,6 +80,51 @@ def update_tip(id):
 				message='error with user reference',
 				status=403
 			), 403
+
+@tips.route('/<id>', methods=['POST'])
+@login_required
+def favorite_tip(id):
+
+	tip = models.Tip.get_by_id(id)
+	favs = [model_to_dict(fav) for fav in tip.favorites]
+	# print(favs[0])
+
+	already_favorited = False
+
+	for fav in favs:
+		if fav['user']['id'] == current_user.id:
+			already_favorited = True
+
+	if already_favorited != True:
+		favorite = models.Favorite.create(
+			user=current_user.id,
+			tip=id)
+
+		favorite_dict = model_to_dict(favorite)
+		return jsonify(
+				data=favorite_dict,
+				message='favorited tip!',
+				status=200
+			), 200
+	else:
+		already_favorited = False
+		return jsonify(
+				data={},
+				message='you can only favorite a tip once!',
+				status=403
+			), 403
+
+@tips.route('/favorites', methods=['GET'])
+def get_favorites():
+	favorites = models.Favorite.select()
+	favorite_dicts = [model_to_dict(fav) for fav in favorites]
+	
+
+	return jsonify(
+			data=favorite_dicts,
+			message='sucessfully retrieved {} favorites'.format(len(favorite_dicts)),
+			status=201
+		), 201
 
 
 
