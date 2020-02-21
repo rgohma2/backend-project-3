@@ -1,6 +1,12 @@
-from flask import Flask, jsonify
+import os
 
+if 'ON_HEROKU' in os.environ: 
+	print('\non heroku!')
+	models.initialize()
+
+from flask import Flask, jsonify
 import models
+
 
 from flask_cors import CORS
 

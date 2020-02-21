@@ -1,8 +1,13 @@
+import os
 from peewee import *
 from flask_login import UserMixin
 import datetime
+from playhouse.db_url import connect
 
-DATABASE = SqliteDatabase('tips.sqlite')
+if 'ON_HEROKU' in os.environ: 
+	DATABASE = connect(os.environ.get('DATABASE_URL'))                                                   # Heroku Postgres Add-on
+else:
+	DATABASE = SqliteDatabase('tips.sqlite')
 
 class User(UserMixin, Model):
   email = CharField(unique=True) 
